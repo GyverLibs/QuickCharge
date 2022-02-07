@@ -1,0 +1,34 @@
+#######################################
+# Syntax Coloring Map For QuickCharge
+#######################################
+
+#######################################
+# Datatypes (KEYWORD1)
+#######################################
+QuickCharge	KEYWORD1
+
+#######################################
+# Methods and Functions (KEYWORD2)
+#######################################
+begin	KEYWORD2
+setMode	KEYWORD2
+setClass	KEYWORD2
+set	KEYWORD2
+inc	KEYWORD2
+dec	KEYWORD2
+voltage	KEYWORD2
+
+#######################################
+# Constants (LITERAL1)
+#######################################
+QC_5V	LITERAL1
+QC_9V	LITERAL1
+QC_12V	LITERAL1
+QC_20V	LITERAL1
+QC_VAR	LITERAL1
+
+QC_CLASS_A	LITERAL1
+QC_CLASS_B	LITERAL1
+QC_NA	LITERAL1
+QC_GEN1	LITERAL1
+QC_GEN2	LITERAL1
