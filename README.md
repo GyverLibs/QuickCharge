@@ -1,5 +1,7 @@
-![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)
-![author](https://img.shields.io/badge/author-AlexGyver-informational.svg)
+[![Foo](https://img.shields.io/badge/Version-1.0-brightgreen.svg?style=flat-square)](#versions)
+[![Foo](https://img.shields.io/badge/Website-AlexGyver.ru-blue.svg?style=flat-square)](https://alexgyver.ru/)
+[![Foo](https://img.shields.io/badge/%E2%82%BD$%E2%82%AC%20%D0%9D%D0%B0%20%D0%BF%D0%B8%D0%B2%D0%BE-%D1%81%20%D1%80%D1%8B%D0%B1%D0%BA%D0%BE%D0%B9-orange.svg?style=flat-square)](https://alexgyver.ru/support_alex/)
+
 # QuickCharge
 Библиотека для управления адаптерами с поддержкой технологии QuickCharge 2.0/3.0
 - QC 2.0: фиксированное напряжение 5V, 9V, 12V (класс A/B) и 20V (класс B)
