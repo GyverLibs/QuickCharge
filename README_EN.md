@@ -1,3 +1,5 @@
+This is an automatic translation, may be incorrect in some places. See sources and examples!
+
 # QuickCharge
 Library for managing adapters supporting QuickCharge 2.0/3.0 technology
 - QC 2.0: fixed voltage 5V, 9V, 12V (class A/B) and 20V (class B)
