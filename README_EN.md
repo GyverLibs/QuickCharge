@@ -1,143 +1,158 @@
 This is an automatic translation, may be incorrect in some places. See sources and examples!
 
-# QuickCharge
-Library for managing adapters supporting QuickCharge 2.0/3.0 technology
+# QuickChaRge
+Library for managing adapters with support for QUICCHARGE 2.0/3.0 technology
 - QC 2.0: fixed voltage 5V, 9V, 12V (class A/B) and 20V (class B)
-- QC 3.0: fixed (as in QC 2.0) + adjustable voltage in 200mV steps: 3.6-12V (class A/B) or 3.6-20V (class B)
-- Determination of the QC version from the program
-- Supports hot plugging
-- MK supply voltage: 3.3-3.6V or 5V (see diagrams)
-- Requires 4 digital pins to work
+-QC 3.0: fixed (as in QC 2.0) + tuned voltage with a step 200MV: 3.6-12V (class A/B) or 3.6-20V (class B)
+- Determination of the version of QC from the program
+- supports "hot" connection
+- supply voltage MK: 3.3-3.6V or 5V (see schemes)
+- for work, you need 4 digital pins
 
-### Compatibility
-Compatible with all Arduino platforms (using Arduino functions)
+## compatibility
+Compatible with all arduino platforms (used arduino functions)
 
 ## Content
-- [Install](#install)
-- [Connection](#wiring)
-- [Initialization](#init)
-- [Usage](#usage)
-- [Example](#example)
-- [Versions](#versions)
-- [Bugs and feedback](#feedback)
+- [installation] (# Install)
+- [connection] (#wiring)
+- [initialization] (#init)
+- [use] (#usage)
+- [Example] (# Example)
+- [versions] (#varsions)
+- [bugs and feedback] (#fedback)
 
-<a id="install"></a>
+<a id="install"> </a>
 ## Installation
-- The library can be found by the name **QuickCharge** and installed through the library manager in:
-    - Arduino IDE
-    - Arduino IDE v2
-    - PlatformIO
-- [Download library](https://github.com/GyverLibs/QuickCharge/archive/refs/heads/main.zip) .zip archive for manual installation:
-    - Unzip and put in *C:\Program Files (x86)\Arduino\libraries* (Windows x64)
-    - Unzip and put in *C:\Program Files\Arduino\libraries* (Windows x32)
-    - Unpack and put in *Documents/Arduino/libraries/*
-    - (Arduino IDE) automatic installation from .zip: *Sketch/Include Library/Add .ZIP Library…* and specifydownloaded archive
-- Read more detailed instructions for installing libraries [here] (https://alexgyver.ru/arduino-first/#%D0%A3%D1%81%D1%82%D0%B0%D0%BD%D0%BE% D0%B2%D0%BA%D0%B0_%D0%B1%D0%B8%D0%B1%D0%BB%D0%B8%D0%BE%D1%82%D0%B5%D0%BA)
+- The library can be found by the name ** QuickChaRge ** and installed through the library manager in:
+    - Arduino ide
+    - Arduino ide v2
+    - Platformio
+- [download the library] (https://github.com/gyverlibs/quickcharge/archive/refs/heads/main.zip). Zip archive for manual installation:
+    - unpack and put in * C: \ Program Files (X86) \ Arduino \ Libraries * (Windows X64)
+    - unpack and put in * C: \ Program Files \ Arduino \ Libraries * (Windows X32)
+    - unpack and put in *documents/arduino/libraries/ *
+    - (Arduino id) Automatic installation from. Zip: * sketch/connect the library/add .Zip library ... * and specify downloaded archive
+- Read more detailed instructions for installing libraries [here] (https://alexgyver.ru/arduino-first/#%D0%A3%D1%81%D1%82%D0%B0%BD%D0%BE%BE%BE%BED0%B2%D0%BA%D0%B0_%D0%B1%D0%B8%D0%B1%D0%BB%D0%B8%D0%BE%D1%82%D0%B5%D0%BA)
+### Update
+- I recommend always updating the library: errors and bugs are corrected in the new versions, as well as optimization and new features are added
+- through the IDE library manager: find the library how to install and click "update"
+- Manually: ** remove the folder with the old version **, and then put a new one in its place.“Replacement” cannot be done: sometimes in new versions, files that remain when replacing are deleted and can lead to errors!
 
-<a id="wiring"></a>
-## Connection
-- The first circuit - MK is powered by an external source 3.3V
-- The second circuit - the MK is powered by an external 5V source (for example, from a nearby USB port)
-- The third circuit - the MK is powered from the same QC port with high voltage through the stabilizer
 
-![scheme](/doc/scheme.png)
+<a id="wiring"> </a>
+## connection
+- the first scheme - MK is powered by an external source 3.3V
+- The second scheme - MK is powered by an external source 5V (for example from a neighboring USB port)
+- the third scheme - MK is powered by the same QC port with high voltage through a stabilizer
 
-<a id="init"></a>
-## Initialization
-```cpp
-QuickCharge adapter(uint8_t DP_H, uint8_t DP_L, uint8_t DM_H, uint8_t DM_L); // specify pins
-QuickCharge adapter(uint8_t DP_H, uint8_t DP_L, uint8_t DM_H, uint8_t DM_L, bool CLASS); // + class
-```
+! [Scheme] (/doc/scheme.png)
 
-<a id="usage"></a>
+<a id="init"> </a>
+## initialization
+`` `CPP
+Quickcharge adapter (uint8_t dp_h, uint8_t dp_l, uint8_t dm_h, uint8_t dm_l);// Indication of Pinov
+Quickcharge adapter (uint8_t dp_h, uint8_t dp_l, uint8_t dm_h, uint8_t dm_l, bool class);// + class
+`` `
+
+<a id="usage"> </a>
 ## Usage
-```cpp
-uint8_tbegin(); // Negotiate with adapter, return adapter version:
-  - QC_NA (0): does not support fast charging
-  - QC_GEN1 (1): (QC 1.0) supports high current fast charging - 5V 2A
-  - QC_GEN2 (2): (QC 2.0, QC 3.0) supports high voltage fast charging
+`` `CPP
+uint8_t begin ();// Perform approval with the adapter, will return the version of the adapter:
+  - qc_na (0): does not support fast charging
+  - Qc_gen1 (1): (Qc 1.0) supports fast charging with large current - 5V 2A
+  - Qc_gen2 (2): (Qc 2.0, Qc 3.0) supports fast charging with high voltage
   
-void setClass(class); // Set adapter class (QC_CLASS_A by default). class:
-  - QC_CLASS_A: max. voltage 12V
-  - QC_CLASS_B: max. voltage 20V
+Void setclass (class);// Install the adapter class (by default qc_class_a).Class:
+  - Qc_class_a: Max.Voltage 12V
+  - Qc_class_b: Max.voltage 20V
   
-void setMode(mode); // Set fixed voltage or custom voltage mode. mode:
-  - QC_5V, QC_9V, QC_12V, QC_20V - fixed voltage (QC 2.0/3.0)
-  - QC_VAR - adjustable voltage (QC 3.0)
+VOID setmode (mode);//set a fixed voltage or a adjustable voltage mode.Mode:
+  - qc_5v, qc_9v, qc_12v, qc_20v - fixed voltage (QC 2.0/3.0)
+  - qc_var - tuned voltage (QC 3.0)
   
-void set(int); // Set output voltage in millivolts (requires QC_VAR and QC3.0 mode)
-void inc(); // Increase output voltage by 200mV (requires QC_VAR and QC3.0 mode)
-void dec(); // Decrease output voltage by 200mV (requires QC_VAR and QC3.0 mode)
-intvoltage(); // Get the current voltage of the adapter
-```
+VOID set (int);// Set the output voltage in millivals (you need the QC_Var and Qc3.0 mode)
+VOID Inc ();// Increase the output voltage by 200 m (requires the QC_Var and Qc3.0 mode)
+Void Dec ();// Reduce the output voltage by 200 m (requires the QC_Var and Qc3.0 mode)
+int voltage ();// Get the current voltage of the adapter
+`` `
 
 Additionally:
-- You can exit the **QC_VAR** mode only by switching to the **QC_5V** mode
-- Entering the modem **QC_VAR** retains the already set voltage (for example, when switching from QC_9V)
-- It is not possible to determine the difference between QC 2.0 and QC 3.0 from the program, the adapter version is indicated on the case. Accordingly, the QC_VAR mode simply will not work on adapters with a QC version less than 3.0
-- Not all adapters can deliver voltage below 5V, see the sticker on the case
+- get out of the ** qc_var ** mode only by switching to the ** qc_5v ** mode
+- Entrance to the ** qc_var ** mode retains the already set voltage (for example, when transition from Qc_9V)
+- It is impossible to determine the difference between QC 2.0 and QC 3.0 from the program, the version of the adapter is indicated on the case.Accordingly, the QC_Var mode will simply not work on adapters with the QC version less than 3.0
+- Not all adapters can issue a voltage below 5V, see the sticker on the case
 
-<a id="example"></a>
+<a id="EXAMPLE"> </a>
 ## Example
-```cpp
-#define DP_H_PIN 2
-#define DP_L_PIN 3
-#define DM_H_PIN A4
-#define DM_L_PIN A5
+`` `CPP
+#define dp_h_pin 2
+#define dp_l_pin 3
+#define dm_h_pin a4
+#define dm_l_pin a5
 
-/* Connect the lib and create an object */
-#include <QuickCharge.h>
-QuickCharge QC(DP_H_PIN, DP_L_PIN, DM_H_PIN, DM_L_PIN, QC_CLASS_B);
+/ * Connect the LIBA and create an object */
+#include <QuickChaRge.h>
+Quickcharge qc (dp_h_pin, dp_l_pin, dm_h_pin, dm_l_pin, qc_class_b);
 
-void setup() {
-  // QC.setClass(QC_CLASS_A); // If desired, the adapter class can be changed
+VOID setup () {
+  // Qc.setclass (qc_class_a);// If desired, the class class can be changed
   
-  Serial.begin(9600); // Open Serial port
-  Serial.print(F("Charger type: ")); // Display a message about the adapter type
+  Serial.Begin (9600);// Open Serial Port
+  Serial.print ("Charger Type:"));// display a message about the type of adapter
 
-  int type = QC.begin(); // Be sure to call begin, it will return the adapter type
-  switch (type) { // Display the type of adapter found
-    case QC_NA: Serial.println(F("QC is not available")); break;
-    case QC_GEN1: Serial.println(F("QC1.0 - (5V 2A)")); break;
-    case QC_GEN2: Serial.println(F("QC2.0 or QC3.0")); break;
+  int type = qc.begin ();// We must call Begin, return the type of adapter
+  Switch (type) {// Display the type of adapter detected
+    CASE QC_NA: serial.println (F ("Qc IS Not Available")));Break;
+    CASE QC_gen1: serial.println (F ("QC1.0 - (5V 2A)"));Break;
+    Case Qc_gen2: Serial.println (F ("Qc2.0 or Qc3.0"));Break;
   }
   
-  // FIXED VOLTAGE
-  QC.setMode(QC_9V); // Get 9V
-  Serial.print("Voltage: "); // Output the current voltage
-  Serial.println(QC.voltage());
-  delay(3000); // We wait
+  // fixed voltage
+  Qc.Setmode (QC_9V);// Get 9V
+  Serial.print ("Voltage:");// We remove the current voltage
+  Serial.println (Qc.voltage ());
+  Delay (3000);// We wait
 
-  QC.setMode(QC_12V); // Get 12V
-  Serial.print("Voltage: "); // Output the current voltage
-  Serial.println(QC.voltage());
-  delay(3000); // We wait
+  Qc.Setmode (QC_12V);// We get 12V
+  Serial.print ("Voltage:");// We remove the current voltage
+  Serial.println (Qc.voltage ());
+  Delay (3000);// We wait
   
-  QC.setMode(QC_VAR); // set custom voltage mode
+  Qc.Setmode (Qc_var);// set the adjustable voltage mode
 }
 
-void loop() {
-  /* Control the output voltage with the Serial Monitor, sending the voltage in whole millivolts! */
-  if (Serial.available() > 1) { // A message has arrived via Serial
-    int mv = Serial.parseInt(); // Parse voltage in millivolts
-    QC set(mv);// Set the desired voltage
-    Serial.print(F("Set voltage to: ")); // Output the current voltage
-    Serial.print(QC.voltage());
-    Serial.println(F("mV"));
+VOID loop () {
+  /* We control the output voltage using a Serial monitor, sending voltage to as many as millivals!*/
+  if (serial.available ()> 1) {// Came a message on Serial
+    int mv = serial.parseint ();// Parsim tension in millivals
+    Qc.Set (MV);// set the desired voltage
+    Serial.print ("set voltage to:"));// We remove the current voltage
+    Serial.print (Qc.voltage ());
+    Serial.println (f ("mv"));
     /*
-      Also, the voltage can be increased / decreased manually:
-      QC.inc(); // Increase voltage by 200 mV
-      QC.dec(); // Decrease voltage by 200 mV
+      Also, the voltage can be increased / reduced manually:
+      QC.inc ();// increase voltage by 200 mV
+      Qc.Dec ();// Reduce voltage by 200 mV
     */
   }
 }
-```
+`` `
 
-<a id="versions"></a>
-## Versions
-- v1.0
+<a id="versions"> </a>
+## versions
+- V1.0
 
-<a id="feedback"></a>
-## Bugs and feedback
-When you find bugs, create an **Issue**, or better, immediately write to the mail [alex@alexgyver.ru](mailto:alex@alexgyver.ru)
-The library is open for revision and your **Pull Request**'s!
+<a id="feedback"> </a>
+## bugs and feedback
+Create ** Issue ** when you find the bugs, and better immediately write to the mail [alex@alexgyver.ru] (mailto: alex@alexgyver.ru)
+The library is open for refinement and your ** pull Request ** 'ow!
+
+
+When reporting about bugs or incorrect work of the library, it is necessary to indicate:
+- The version of the library
+- What is MK used
+- SDK version (for ESP)
+- version of Arduino ide
+- whether the built -in examples work correctly, in which the functions and designs are used, leading to a bug in your code
+- what code has been loaded, what work was expected from it and how it works in reality
+- Ideally, attach the minimum code in which the bug is observed.Not a canvas of a thousand lines, but a minimum code
